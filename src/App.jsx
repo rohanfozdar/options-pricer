@@ -3,7 +3,7 @@ import './App.css'
 import ImpliedVolSurface from './ImpliedVolSurface.jsx'
 
 // Backend Flask API base URL (Render)
-const API_BASE_URL = 'https://options-pricer-backend2.onrender.com/api'
+   const API_BASE_URL = 'https://options-pricer
 
 function App() {
   const [ticker, setTicker] = useState('')

@@ -1,129 +1,387 @@
-.app {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 2rem;
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root {
+  --bg:            #0d0f14;
+  --surface:       #161b25;
+  --surface-alt:   #0d1520;
+  --border:        #1e2736;
+  --accent:        #00d4aa;
+  --amber:         #f59e0b;
+  --danger:        #ef4444;
+  --text-primary:  #e8edf5;
+  --text-secondary:#a0aabb;
+  --text-muted:    #6b7a8d;
 }
 
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================
+   APP SHELL
+   ============================================================ */
+.app {
+  min-height: 100vh;
+  background-color: var(--bg);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 39px,
+      rgba(255, 255, 255, 0.03) 39px,
+      rgba(255, 255, 255, 0.03) 40px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 39px,
+      rgba(255, 255, 255, 0.03) 39px,
+      rgba(255, 255, 255, 0.03) 40px
+    );
+  padding: 2.5rem 3rem;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
 .header {
-  text-align: center;
-  color: white;
   margin-bottom: 3rem;
+  padding-left: 1.25rem;
+  border-left: 2px solid var(--accent);
+  animation: fadeUp 0.5s ease forwards;
 }
 
 .header h1 {
-  font-size: 3rem;
-  margin: 0 0 0.5rem 0;
-  font-weight: 700;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-size: 4rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin: 0 0 0.35rem 0;
+  line-height: 1;
+  letter-spacing: -0.01em;
 }
 
 .header p {
-  font-size: 1.2rem;
+  font-family: 'DM Mono', 'Courier New', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
   margin: 0;
-  opacity: 0.9;
 }
 
+/* ============================================================
+   MAIN CONTENT WRAPPER
+   ============================================================ */
 .main-content {
   max-width: 1400px;
   margin: 0 auto;
 }
 
+/* ============================================================
+   FORM — horizontal dark card
+   ============================================================ */
 .options-form {
-  background: white;
-  border-radius: 16px;
-  padding: 2.5rem;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 1.75rem 2rem;
   margin-bottom: 2rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: 180px 160px 1fr auto;
+  gap: 2rem;
   align-items: end;
+}
+
+/* Stagger-fade form children on page load */
+.options-form > *:nth-child(1) {
+  animation: fadeUp 0.4s ease forwards;
+  animation-delay: 0.05s;
+  opacity: 0;
+}
+.options-form > *:nth-child(2) {
+  animation: fadeUp 0.4s ease forwards;
+  animation-delay: 0.13s;
+  opacity: 0;
+}
+.options-form > *:nth-child(3) {
+  animation: fadeUp 0.4s ease forwards;
+  animation-delay: 0.21s;
+  opacity: 0;
+}
+.options-form > *:nth-child(4) {
+  animation: fadeUp 0.4s ease forwards;
+  animation-delay: 0.29s;
+  opacity: 0;
+}
+.options-form > *:nth-child(5) {
+  animation: fadeUp 0.4s ease forwards;
+  animation-delay: 0.37s;
+  opacity: 0;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 
 .form-group label {
-  font-weight: 600;
-  color: #333;
-  font-size: 0.95rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
 }
 
 .input,
 .select {
-  padding: 0.75rem 1rem;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  font-family: inherit;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  color: var(--text-primary);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.95rem;
+  padding: 0.6rem 0;
+  transition: border-color 0.2s ease;
+  width: 100%;
+  /* Custom arrow for select */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2300d4aa' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.25rem center;
+  padding-right: 1.5rem;
 }
 
 .input:focus,
 .select:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-bottom-color: var(--accent);
+  box-shadow: none;
 }
 
 .select:disabled {
-  background-color: #f5f5f5;
+  color: var(--text-muted);
   cursor: not-allowed;
+  opacity: 0.5;
 }
 
+.select option {
+  background: var(--surface);
+  color: var(--text-primary);
+}
+
+/* ============================================================
+   SUBMIT BUTTON
+   ============================================================ */
 .submit-button {
-  padding: 0.875rem 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.7rem 1.4rem;
+  border-radius: 0;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  transition: background 0.18s ease, color 0.18s ease;
+  white-space: nowrap;
 }
 
 .submit-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+  background: var(--accent);
+  color: var(--bg);
 }
 
 .submit-button:disabled {
-  opacity: 0.6;
+  opacity: 0.45;
   cursor: not-allowed;
-  transform: none;
 }
 
+/* ============================================================
+   LOADING & ERROR
+   ============================================================ */
 .loading {
-  padding: 0.75rem 1rem;
-  color: #667eea;
-  font-style: italic;
-  text-align: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.82rem;
+  color: var(--accent);
+  padding: 0.6rem 0;
+  opacity: 0.75;
 }
 
 .error-message {
   grid-column: 1 / -1;
-  padding: 1rem;
-  background-color: #fee;
-  color: #c33;
-  border-radius: 8px;
-  border: 1px solid #fcc;
-  font-weight: 500;
+  padding: 0.875rem 1rem;
+  background: rgba(239, 68, 68, 0.08);
+  color: var(--danger);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.82rem;
 }
 
+/* ============================================================
+   RESULTS CONTAINER
+   ============================================================ */
 .results-container {
-  background: white;
-  border-radius: 16px;
-  padding: 2.5rem;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 2rem;
+  animation: fadeUp 0.4s ease forwards;
 }
 
+/* ============================================================
+   RESULTS HEADER
+   ============================================================ */
+.results-header {
+  margin-bottom: 2rem;
+}
+
+.results-header h2 {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+  margin: 0 0 1.25rem 0;
+}
+
+/* ============================================================
+   SUMMARY BAR — horizontal metric cards
+   ============================================================ */
+.results-summary {
+  display: flex;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.summary-item {
+  flex: 1;
+  min-width: 140px;
+  padding: 1rem 1.5rem;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.summary-item:last-child {
+  border-right: none;
+}
+
+.summary-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+
+.summary-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--amber);
+  line-height: 1.2;
+}
+
+/* ============================================================
+   TABLE
+   ============================================================ */
+.table-container {
+  overflow-x: auto;
+  border: none;
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.results-table thead {
+  background: var(--surface-alt);
+}
+
+.results-table th {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  padding: 0.875rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.results-table tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background-color 0.15s ease;
+}
+
+.results-table tbody tr:nth-child(odd) {
+  background: var(--bg);
+}
+
+.results-table tbody tr:nth-child(even) {
+  background: var(--surface);
+}
+
+.results-table tbody tr:hover {
+  background: var(--border);
+}
+
+.results-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.results-table td {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  padding: 0.8rem 1rem;
+}
+
+.results-table td.option-value {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Sequential table-row fade-in when .results-visible class is applied */
+.results-visible .results-table tbody tr {
+  animation: fadeUp 0.3s ease forwards;
+  opacity: 0;
+  animation-delay: calc(var(--row-index, 0) * 0.035s);
+}
+
+/* ============================================================
+   IV SURFACE CONTROLS
+   ============================================================ */
 .iv-surface-controls {
-  margin-top: 1.5rem;
+  margin-top: 1.75rem;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -133,22 +391,67 @@
   align-self: flex-start;
 }
 
+.iv-surface-error {
+  grid-column: unset;
+}
+
+/* ============================================================
+   IV SURFACE SECTION — dark card with mint-green top accent
+   ============================================================ */
 .iv-surface-section {
-  margin-top: 2.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid #e0e0e0;
+  margin-top: 2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent);
+  padding: 2rem;
 }
 
 .iv-surface-title {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.5rem;
-  color: #333;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+  margin: 0 0 1.25rem 0;
 }
 
 .iv-surface-subtitle {
   margin: 0 0 1rem 0;
-  color: #666;
-  font-size: 0.95rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Explanatory text panel */
+.iv-surface-explainer {
+  margin-bottom: 1.5rem;
+}
+
+.iv-surface-explainer p {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+  margin: 0 0 0.75rem 0;
+}
+
+.iv-surface-explainer p:last-child {
+  margin-bottom: 0;
+}
+
+.iv-surface-explainer strong {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.iv-blue {
+  color: #5b8dd9;
+  font-weight: 600;
+}
+
+.iv-red {
+  color: #d94f4f;
+  font-weight: 600;
 }
 
 .iv-surface-plot-wrapper {
@@ -156,128 +459,51 @@
   min-height: 400px;
 }
 
-.results-header {
-  margin-bottom: 2rem;
-}
-
-.results-header h2 {
-  margin: 0 0 1.5rem 0;
-  color: #333;
-  font-size: 2rem;
-}
-
-.results-summary {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  padding: 1.5rem;
-  background: #f8f9fa;
-  border-radius: 12px;
-}
-
-.summary-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.summary-label {
-  font-size: 0.85rem;
-  color: #666;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.summary-value {
-  font-size: 1.25rem;
-  color: #333;
-  font-weight: 700;
-}
-
-.table-container {
-  overflow-x: auto;
-  border-radius: 12px;
-  border: 1px solid #e0e0e0;
-}
-
-.results-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.95rem;
-}
-
-.results-table thead {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-}
-
-.results-table th {
-  padding: 1rem;
-  text-align: left;
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.results-table tbody tr {
-  border-bottom: 1px solid #e0e0e0;
-  transition: background-color 0.2s ease;
-}
-
-.results-table tbody tr:hover {
-  background-color: #f8f9fa;
-}
-
-.results-table tbody tr:last-child {
-  border-bottom: none;
-}
-
-.results-table td {
-  padding: 1rem;
-  color: #333;
-}
-
-.results-table td.option-value {
-  font-weight: 700;
-  color: #667eea;
-}
-
-.results-table td.negative {
-  color: #e74c3c;
-}
-
+/* ============================================================
+   MOBILE — stack vertically, keep terminal aesthetic
+   ============================================================ */
 @media (max-width: 768px) {
   .app {
-    padding: 1rem;
+    padding: 1.5rem 1.25rem;
   }
 
   .header h1 {
-    font-size: 2rem;
+    font-size: 2.5rem;
   }
 
   .options-form {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
     padding: 1.5rem;
   }
 
-  .submit-button {
-    width: 100%;
+  .results-summary {
+    flex-direction: column;
+  }
+
+  .summary-item {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .summary-item:last-child {
+    border-bottom: none;
   }
 
   .results-container {
-    padding: 1.5rem;
+    padding: 1.25rem;
+  }
+
+  .iv-surface-section {
+    padding: 1.25rem;
   }
 
   .results-table {
-    font-size: 0.85rem;
+    font-size: 0.78rem;
   }
 
   .results-table th,
   .results-table td {
-    padding: 0.75rem 0.5rem;
+    padding: 0.7rem 0.6rem;
   }
 }
-
-

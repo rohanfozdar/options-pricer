@@ -17,6 +17,7 @@ function App() {
   const [ivSurfaceData, setIvSurfaceData] = useState(null)
   const [loadingSurface, setLoadingSurface] = useState(false)
   const [surfaceError, setSurfaceError] = useState(null)
+  const [resultsVisible, setResultsVisible] = useState(false)
 
   const fetchExpirations = async (tickerSymbol) => {
     if (!tickerSymbol.trim()) {
@@ -89,6 +90,7 @@ function App() {
     setError(null)
     setResults(null)
     setIvSurfaceData(null)
+    setResultsVisible(false)
 
     try {
       const response = await fetch(`${API_BASE_URL}/price-options`, {
@@ -122,6 +124,7 @@ function App() {
       }
 
       setResults(data)
+      setTimeout(() => setResultsVisible(true), 50)
     } catch (err) {
       setError(err.message)
     } finally {
@@ -301,7 +304,7 @@ function App() {
         </form>
 
         {results && (
-          <div className="results-container">
+          <div className={`results-container${resultsVisible ? ' results-visible' : ''}`}>
             <div className="results-header">
               <h2>Option Pricing Results</h2>
               <div className="results-summary">
@@ -351,7 +354,7 @@ function App() {
                 </thead>
                 <tbody>
                   {results.results.map((row, index) => (
-                    <tr key={index}>
+                    <tr key={index} style={{ '--row-index': index }}>
                       <td>{formatCurrency(row.Strike)}</td>
                       <td>{formatCurrency(row.Bid)}</td>
                       <td>{formatCurrency(row.Ask)}</td>
@@ -387,7 +390,12 @@ function App() {
               </div>
             )}
 
-            {ivSurfaceData && <ImpliedVolSurface surfaceData={ivSurfaceData} />}
+            {ivSurfaceData && (
+              <ImpliedVolSurface
+                surfaceData={ivSurfaceData}
+                currentPrice={results.currentPrice}
+              />
+            )}
           </div>
         )}
       </main>

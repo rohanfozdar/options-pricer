@@ -394,7 +394,7 @@ def calculate_option_prices(ticker, option_type, expiration):
 
     delta_days = (expiration_date - today_date).days
 
-    if delta_days <= 0:
+    if delta_days < 0:
 
         raise ValueError("Expiration date must be in the future.")
 

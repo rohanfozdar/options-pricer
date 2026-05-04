@@ -139,8 +139,15 @@ function App() {
     setSurfaceError(null)
 
     try {
-      // Use up to the first 5 expirations to keep the plot readable
-      const selectedExpirations = expirations.slice(0, 5)
+      // Filter to dates strictly after today, then take up to 5 to keep the plot readable
+      const todayStr = new Date().toISOString().split('T')[0]
+      const futureExpirations = expirations.filter((exp) => exp > todayStr)
+      if (!futureExpirations.length) {
+        setSurfaceError('No future expiration dates available to build the surface.')
+        setLoadingSurface(false)
+        return
+      }
+      const selectedExpirations = futureExpirations.slice(0, 5)
 
       const allStrikesSet = new Set()
       const rowsByExpiration = []
